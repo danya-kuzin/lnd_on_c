@@ -6,7 +6,8 @@ void str_read_and_parsing(
     char str[],
     char param1[],
     char param2[],
-    char param3[]
+    char param3[],
+    char param4[]
 );
 
 #endif
