@@ -1,21 +1,21 @@
 #include <stdio.h>
-#include "unit.h"
+#include "game.h"
 
-void cli_print_units(struct Unit all_units[], int cur_cnt_units)
+void cli_print_units(struct GameState *game)
 {
-    for (int i = 0; i < cur_cnt_units; i++) {
+    for (int i = 0; i < game->cur_cnt_units; i++) {
         printf(
             "unit %d: type=%d pos=(%d, %d) hp=%d atk=%d def=%d speed=%d cost=%d id=%d\n",
             i + 1,
-            all_units[i].type,
-            all_units[i].hex_x,
-            all_units[i].hex_y,
-            all_units[i].health,
-            all_units[i].attack,
-            all_units[i].defence,
-            all_units[i].speed,
-            all_units[i].cost,
-            all_units[i].id
+            game->all_units[i].type,
+            game->all_units[i].hex_x,
+            game->all_units[i].hex_y,
+            game->all_units[i].health,
+            game->all_units[i].attack,
+            game->all_units[i].defence,
+            game->all_units[i].speed,
+            game->all_units[i].cost,
+            game->all_units[i].id
         );
     }
 }

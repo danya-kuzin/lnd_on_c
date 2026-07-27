@@ -1,8 +1,8 @@
-#include "unit.h"
+#include "game.h"
 
 #ifndef PRINT_UNITS_H
 #define PRINT_UNITS_H
 
-void cli_print_units(struct Unit all_units[], int cur_cnt_units);
+void cli_print_units(struct GameState *game);
 
 #endif

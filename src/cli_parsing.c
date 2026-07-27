@@ -3,7 +3,7 @@
 #include <string.h>
 #include "cli_parsing.h"
 
-void str_read_and_parsing(int str_len, char str[], char param1[], 
+void cli_parsing(int str_len, char str[], char param1[], 
                           char param2[], char param3[], char param4[]) {
 
     // ввод строки
