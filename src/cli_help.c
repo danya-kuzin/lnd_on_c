@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-#include "com_help.h"
+#include "cli_help.h"
 
-void com_help(void){
+void cli_help(void){
     printf("\n");
     printf("\n");
     printf("===========================================================\n");

@@ -1,17 +1,9 @@
-#include "unit.h"
-#include <stdio.h>
+#include "game.h"
 
-#include "com_create_unit.h"
-
-/*  при такой передаче массива он сам превращается в свой адрес
-    то есть функция получает доступ к настоящему массиву, а не к его копии*/
-void create_unit(struct Unit all_units[], enum UnitType unit_type,
-                int * cur_cnt_units, int max_cnt_of_units) {
-
+enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type) {
     // проверка на достижения предела количества юнитов
-    if (*cur_cnt_units >= max_cnt_of_units) {
-        printf("Cannot create unit: unit limit reached\n");
-        return;
+    if (game->cur_cnt_units >= MAX_CNT_OF_UNITS) {
+        return GAME_ERROR_UNIT_LIMIT;
     }
 
     // создаем нового юнита
@@ -28,7 +20,7 @@ void create_unit(struct Unit all_units[], enum UnitType unit_type,
             new_unit.attack = 2;
             new_unit.defence = 1;
             new_unit.speed = 1;
-            new_unit.id = *cur_cnt_units + 1;
+            new_unit.id = game->cur_cnt_units + 1;
             break;
 
         case SPEARMAN:
@@ -40,11 +32,15 @@ void create_unit(struct Unit all_units[], enum UnitType unit_type,
             new_unit.attack = 3;
             new_unit.defence = 2;
             new_unit.speed = 1;
-            new_unit.id = *cur_cnt_units + 1;
+            new_unit.id = game->cur_cnt_units + 1;
             break;
+
+        default:
+            return GAME_ERROR_UNKNOWN_UNIT_TYPE;
     }
 
     // добавляем его в массив юнитов
-    all_units[*cur_cnt_units] = new_unit;
-    (*cur_cnt_units)++;
+    game->all_units[game->cur_cnt_units] = new_unit;
+    (game->cur_cnt_units)++;
+    return GAME_OK;
 }

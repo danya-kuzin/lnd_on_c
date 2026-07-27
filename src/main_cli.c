@@ -11,17 +11,15 @@
 #include <string.h>
 
 // мои заголовки
-#include "str_read_and_parsing.h"
+#include "cli_parsing.h"
 #include "unit.h"
-#include "print_units.h"
-#include "com_create_unit.h"
-#include "com_help.h"
-#include "com_move.h"
+#include "cli_print_units.h"
+#include "cli_create_unit.h"
+#include "cli_help.h"
+#include "cli_move.h"
+#include "game.h"
 
 #define LENGTH_INPUT_STR 20
-#define MAX_CNT_OF_UNITS 3
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 4
 
 void com_status(struct Unit all_units[], int cur_cnt_units, 
             int map_width, int map_height){
@@ -102,12 +100,13 @@ void com_status(struct Unit all_units[], int cur_cnt_units,
 
 int main()
 {
-    // переменные для хранения войска игрока
-    struct Unit all_units[MAX_CNT_OF_UNITS];
-    int cur_cnt_units = 0;
 
     // переменные для старта игры
-    char start_input[10];
+    char start_input[10];   
+
+    // инициализация игры
+    struct GameState game;
+    game_init(&game);
 
     // переменные для парсинга команды
     char input[LENGTH_INPUT_STR];
@@ -149,32 +148,21 @@ int main()
         
         // проверка введенных команд на корректность
         if (strcmp(param1, "create") == 0) {
-            if (strcmp(param2, "mech") == 0){
-                create_unit(all_units, SWORDSMAN, &cur_cnt_units, MAX_CNT_OF_UNITS);
-            }
-
-            else if (strcmp(param2, "kop") == 0){
-                create_unit(all_units, SPEARMAN, &cur_cnt_units, MAX_CNT_OF_UNITS);
-            }
-
-            else {
-                printf("Unknown unit type\n");
-            }
+            cli_create_unit(&game, param2);
             
-            print_units(all_units, cur_cnt_units);
+            cli_print_units(game.all_units, game.cur_cnt_units);
         }
 
         else if (strcmp(param1, "help") == 0) {
-            com_help();
+            cli_help();
         }
 
         else if (strcmp(param1, "move") == 0) {
-            com_move(param2, param3, param4, all_units, 
-                    cur_cnt_units, MAP_WIDTH, MAP_HEIGHT);
+            cli_move(param2, param3, param4, &game);
         }
 
         else if (strcmp(param1, "status") == 0) {
-            com_status(all_units, cur_cnt_units, MAP_WIDTH, MAP_HEIGHT);
+            com_status(game.all_units, game.cur_cnt_units, MAP_WIDTH, MAP_HEIGHT);
         }
 
         else if (strcmp(param1, "finish") == 0) {

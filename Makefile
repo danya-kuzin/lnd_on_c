@@ -4,8 +4,8 @@ TARGET = lnd
 
 all: $(TARGET)
 
-$(TARGET): src/main.c src/str_read_and_parsing.c src/print_units.c src/com_create_unit.c src/com_help.c src/com_move.c
-	$(CC) $(CFLAGS) src/main.c src/str_read_and_parsing.c src/print_units.c src/com_create_unit.c src/com_help.c src/com_move.c -o $(TARGET)
+$(TARGET): src/main_cli.c src/cli_parsing.c src/cli_print_units.c src/cli_create_unit.c src/cli_help.c src/cli_move.c src/game.c src/game_create_unit.c src/game_move.c
+	$(CC) $(CFLAGS) src/main_cli.c src/cli_parsing.c src/cli_print_units.c src/cli_create_unit.c src/cli_help.c src/cli_move.c src/game.c src/game_create_unit.c src/game_move.c -o $(TARGET)
 
 run: $(TARGET)
 	./$(TARGET)
