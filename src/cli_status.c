@@ -78,4 +78,9 @@ void cli_status(struct GameState *game){
         printf("_");
     }
     printf("|\n\n");
+
+    // блок вывода золота игроков
+    for (int i = 1; i <= game->num_of_players; i++) {
+        printf("player %d: %dG\n", i, game->players[i].gold);
+    }
 }

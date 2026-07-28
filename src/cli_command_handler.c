@@ -8,6 +8,7 @@
 #include "cli_help.h"
 #include "cli_move.h"
 #include "cli_status.h"
+#include "cli_end_turn.h"
 #include "cli_command_handler.h"
 
 // распределение текстовых команд по их обработчикам
@@ -37,6 +38,11 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
     else if (strcmp(param1, "finish") == 0) {
         printf("Congratulations on the end of the LnD game\n");
         return CLI_FINISH;
+    }
+
+    else if (strcmp(param1, "end") == 0) {
+        cli_end_turn(game);
+        return CLI_CONTINUE;
     }
 
     else {

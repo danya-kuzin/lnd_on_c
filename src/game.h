@@ -1,16 +1,38 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <stdbool.h>
 #include "unit.h"
 
 #define MAX_CNT_OF_UNITS 64
 #define MAP_WIDTH 8
 #define MAP_HEIGHT 4
+#define MAX_CNT_OF_PLAYERS 4
+
+// перечислимый тип для хода игрока
+enum PlayerTurn {
+    NOT_TURN_YET,
+    TURN_NOW,
+    ALREADY_TURN
+};
+
+// структура игрока
+struct Player {
+    int gold;
+    int id;
+    enum PlayerTurn turn;
+};
 
 // структура для хранения войска игроков
 struct GameState {
     struct Unit all_units[MAX_CNT_OF_UNITS];
     int cur_cnt_units;
+
+    struct Player players[MAX_CNT_OF_PLAYERS];
+    int cur_round;
+    int num_of_players;
+    int cur_player_id_turn;
+    bool all_players_end_turns;
 };
 
 enum GameError {
@@ -27,10 +49,12 @@ enum GameError {
     //GAME_ERROR_TOO_MANY_PARAMETERS
 };
 
-void game_init(struct GameState *game);
+void game_init(struct GameState *game, int num_of_players);
 
 enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type);
 
 enum GameError game_move(struct GameState *game, int unit_id, int target_x, int target_y);
+
+enum GameError game_end_turn(struct GameState *game);
 
 #endif

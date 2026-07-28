@@ -17,6 +17,7 @@ struct Unit {
     int defence;
     int speed;
     int id;
+    int player_id;
 };
 
 #endif
