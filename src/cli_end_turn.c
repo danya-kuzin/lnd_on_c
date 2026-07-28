@@ -13,7 +13,7 @@ void cli_end_turn(struct GameState *game) {
     
     switch (error) {
         case GAME_OK:
-            printf("The unit has been successfully moved \n");
+            printf("Turn ended\n");
             break;
 
         default:

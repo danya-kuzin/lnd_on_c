@@ -36,7 +36,7 @@ void cli_status(struct GameState *game){
             printf("   ");
         } 
         else {
-            for (int i = 0; i <= game->cur_cnt_units; i++) {
+            for (int i = 0; i < game->cur_cnt_units; i++) {
                 if (game->all_units[i].hex_x == cur_map_width &&
                     game->all_units[i].hex_y == cur_map_height) {
                     printf("%d", game->all_units[i].id);
@@ -80,7 +80,7 @@ void cli_status(struct GameState *game){
     printf("|\n\n");
 
     // блок вывода золота игроков
-    for (int i = 1; i <= game->num_of_players; i++) {
-        printf("player %d: %dG\n", i, game->players[i].gold);
+    for (int i = 0; i < game->num_of_players; i++) {
+        printf("player %d: %dG\n", game->players[i].id, game->players[i].gold);
     }
 }
