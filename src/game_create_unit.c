@@ -10,6 +10,11 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
     struct Unit new_unit;
     
     // задаем ему характеристики
+    // общие характеристики
+    new_unit.id = game->cur_cnt_units + 1;
+    new_unit.player_id = game->cur_player_id_turn;
+    
+    // частные характеристики
     switch (unit_type) {
         case SWORDSMAN:
             new_unit.type = SWORDSMAN;
@@ -20,7 +25,6 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.attack = 2;
             new_unit.defence = 1;
             new_unit.speed = 1;
-            new_unit.id = game->cur_cnt_units + 1;
             break;
 
         case SPEARMAN:
@@ -32,11 +36,18 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.attack = 3;
             new_unit.defence = 2;
             new_unit.speed = 1;
-            new_unit.id = game->cur_cnt_units + 1;
             break;
 
         default:
             return GAME_ERROR_UNKNOWN_UNIT_TYPE;
+    }
+
+    // проверка на достаточное количество золота
+    int player_i = game->cur_player_id_turn - 1;
+    if (game->players[player_i].gold < new_unit.cost) {
+        return GAME_ERROR_NOT_ENOUGH_GOLD;
+    } else {
+        game->players[player_i].gold -= new_unit.cost;
     }
 
     // добавляем его в массив юнитов

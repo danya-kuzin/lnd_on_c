@@ -53,6 +53,10 @@ void cli_move(char param2[], char param3[],
             printf("Error: unknown unit type \n");
             break;
 
+        case GAME_ERROR_NOT_YOUR_UNIT:
+            printf("Error: the selected unit for movement does not belong to you \n");
+            break;
+
         case GAME_OK:
             printf("The unit has been successfully moved \n");
             break;

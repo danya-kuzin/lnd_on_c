@@ -30,4 +30,8 @@ void cli_create_unit(struct GameState *game, char unit_name[]) {
     else if (error == GAME_ERROR_UNIT_LIMIT) {
         printf("Error: the unit limit has been reached\n");
     }
+
+    else if (error == GAME_ERROR_NOT_ENOUGH_GOLD) {
+        printf("Error: not enough gold to create\n");
+    }
 }

@@ -39,7 +39,11 @@ void cli_status(struct GameState *game){
             for (int i = 0; i < game->cur_cnt_units; i++) {
                 if (game->all_units[i].hex_x == cur_map_width &&
                     game->all_units[i].hex_y == cur_map_height) {
+                    
+                    printf(COLOR_RED);
                     printf("%d", game->all_units[i].id);
+                    printf(COLOR_RESET);
+
                     flag_no_unit = 0;
 
                     if (game->all_units[i].id > 9) {

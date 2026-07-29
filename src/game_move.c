@@ -22,6 +22,11 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
         if (game->all_units[i].id == unit_id) {
             cur_unit = game->all_units[i];
             flag_id = 1;
+
+            // проверка на попытку воспользоваться чужим юнитом
+            if (game->all_units[i].player_id != game->cur_player_id_turn) {
+                return GAME_ERROR_NOT_YOUR_UNIT;
+            }
         }
     }
 
@@ -43,7 +48,7 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
             target_y == game->all_units[i].hex_y) {
             return GAME_ERROR_ALREADY_UNIT_ON_HEX;
         }
-    }
+    } 
 
     // сама команда move
     for (int i = 0; i < game->cur_cnt_units; i++) {
