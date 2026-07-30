@@ -8,7 +8,7 @@ void game_init(struct GameState *game, int num_of_players)
 
     for (int i = 0; i < game->num_of_players; i++) {
         game->players[i].id = i + 1;
-        game->players[i].gold = 10;
+        game->players[i].gold = 20;
         game->players[i].turn = NOT_TURN_YET;
     }
 

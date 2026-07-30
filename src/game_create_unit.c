@@ -42,6 +42,9 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             return GAME_ERROR_UNKNOWN_UNIT_TYPE;
     }
 
+    // при создании юнита его возможное перемещение максимально и равно его скорости
+    new_unit.movement_left = new_unit.speed;
+
     // проверка на достаточное количество золота
     int player_i = game->cur_player_id_turn - 1;
     if (game->players[player_i].gold < new_unit.cost) {

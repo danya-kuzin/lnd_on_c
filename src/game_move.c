@@ -38,9 +38,9 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
     // проверка на возможности по скорости
     int delta_x = abs(cur_unit.hex_x - target_x);
     int delta_y = abs(cur_unit.hex_y - target_y);
-    if (delta_x + delta_y > cur_unit.speed * 2){
+    if (delta_x + delta_y > cur_unit.movement_left * 2){
         return GAME_ERROR_NOT_ENOUGH_SPEED;
-    }
+    } 
     
     // проверка на попытку поставить отряд на занятый гекс
     for (int i = 0; i < game->cur_cnt_units; i++) {
@@ -55,6 +55,7 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
         if (game->all_units[i].id == unit_id) {
             game->all_units[i].hex_x = target_x;
             game->all_units[i].hex_y = target_y;
+            game->all_units[i].movement_left -= (delta_x + delta_y)/2;
             break;
         }
     }

@@ -2,7 +2,27 @@
 #include <stdlib.h>
 #include "unit.h"
 #include "game.h"
+#include "cli_print_units.h"
 #include "cli_status.h"
+
+
+// функция для распределения игроков по цветам
+const char *cli_player_color(int player_id)
+{
+    switch (player_id) {
+        case 1:
+            return COLOR_RED;
+        case 2:
+            return COLOR_GREEN;
+        case 3:
+            return COLOR_YELLOW;
+        case 4:
+            return COLOR_BLUE;
+        default:
+            return COLOR_RESET;
+    }
+}
+
 
 void cli_status(struct GameState *game){
     
@@ -40,9 +60,9 @@ void cli_status(struct GameState *game){
                 if (game->all_units[i].hex_x == cur_map_width &&
                     game->all_units[i].hex_y == cur_map_height) {
                     
-                    printf(COLOR_RED);
+                    printf("%s", cli_player_color(game->all_units[i].player_id));
                     printf("%d", game->all_units[i].id);
-                    printf(COLOR_RESET);
+                    printf("%s", COLOR_RESET);
 
                     flag_no_unit = 0;
 
@@ -87,4 +107,7 @@ void cli_status(struct GameState *game){
     for (int i = 0; i < game->num_of_players; i++) {
         printf("player %d: %dG\n", game->players[i].id, game->players[i].gold);
     }
+
+    // блок вывода всех юнитов
+    cli_print_units(game);
 }

@@ -16,7 +16,7 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
                                 char param2[], char param3[], char param4[]) {
     if (strcmp(param1, "create") == 0) {
         cli_create_unit(game, param2);
-        cli_print_units(game);
+        // cli_print_units(game);
         return CLI_CONTINUE;
     }
 

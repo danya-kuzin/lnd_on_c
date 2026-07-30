@@ -22,6 +22,13 @@ enum GameError game_end_turn(struct GameState *game) {
         }
         game->players[0].turn = TURN_NOW;
         game->cur_player_id_turn = game->players[0].id;
+        
+        // все юниты этого игрока обновляют свое макс. перемещение
+        for (int i = 0; i < game->cur_cnt_units; i++) {
+            if (game->all_units[i].player_id == game->cur_player_id_turn) {
+                game->all_units[i].movement_left = game->all_units[i].speed;
+            }
+        }
 
         return GAME_OK;
     }

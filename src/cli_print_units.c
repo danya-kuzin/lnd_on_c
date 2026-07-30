@@ -5,7 +5,7 @@ void cli_print_units(struct GameState *game)
 {
     for (int i = 0; i < game->cur_cnt_units; i++) {
         printf(
-            "unit %d: type=%d pos=(%d, %d) hp=%d atk=%d def=%d speed=%d cost=%d id=%d player_id=%d\n",
+            "unit %d: type=%d pos=(%d, %d) hp=%d atk=%d def=%d speed=%d cost=%d id=%d player_id=%d movement_left=%d\n",
             i + 1,
             game->all_units[i].type,
             game->all_units[i].hex_x,
@@ -16,7 +16,8 @@ void cli_print_units(struct GameState *game)
             game->all_units[i].speed,
             game->all_units[i].cost,
             game->all_units[i].id,
-            game->all_units[i].player_id
+            game->all_units[i].player_id,
+            game->all_units[i].movement_left
         );
     }
 }

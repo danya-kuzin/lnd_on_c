@@ -75,7 +75,7 @@ int main()
         game.all_players_end_turns = false;
         while (game.all_players_end_turns == false) {
 
-            printf("Player %d: \n", game.cur_player_id_turn);
+            printf("Player %d: ", game.cur_player_id_turn);
 
             // очищаем парамеры
             param1[0] = '\0';
@@ -85,10 +85,10 @@ int main()
 
             // читаем строку и парсим параметры
             cli_parsing(LENGTH_INPUT_STR, input, param1, param2, param3, param4);
-            printf("param1: %s \n", param1);
+            /* printf("param1: %s \n", param1);
             printf("param2: %s \n", param2);
             printf("param3: %s \n", param3);
-            printf("param4: %s \n", param4);
+            printf("param4: %s \n", param4); */
             
             // отправляем команду в расределитель команд по программам для их обработки
             continue_or_finish = cli_handle_command(&game, param1, param2, param3, param4);

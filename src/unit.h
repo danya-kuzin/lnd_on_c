@@ -18,6 +18,7 @@ struct Unit {
     int speed;
     int id;
     int player_id;
+    int movement_left;
 };
 
 #endif
