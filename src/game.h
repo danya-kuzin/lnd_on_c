@@ -21,6 +21,9 @@ struct Player {
     int gold;
     int id;
     enum PlayerTurn turn;
+
+    int castle_x;
+    int castle_y;
 };
 
 // структура для хранения войска игроков
@@ -45,7 +48,8 @@ enum GameError {
     GAME_ERROR_ALREADY_UNIT_ON_HEX,
     GAME_ERROR_UNKNOWN_UNIT_TYPE,
     GAME_ERROR_NOT_ENOUGH_GOLD,
-    GAME_ERROR_NOT_YOUR_UNIT
+    GAME_ERROR_NOT_YOUR_UNIT,
+    GAME_ERROR_SPAWN_HEX_OCCUPIED
     //GAME_ERROR_EMPTY_PARAMETER,
     //GAME_ERROR_PARAMETER_IS_NOT_NUMBER,
     //GAME_ERROR_TOO_MANY_PARAMETERS

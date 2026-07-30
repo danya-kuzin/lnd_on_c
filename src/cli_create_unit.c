@@ -34,4 +34,8 @@ void cli_create_unit(struct GameState *game, char unit_name[]) {
     else if (error == GAME_ERROR_NOT_ENOUGH_GOLD) {
         printf("Error: not enough gold to create\n");
     }
+
+    else if (error == GAME_ERROR_SPAWN_HEX_OCCUPIED) {
+        printf("Error: castle hex is occupied\n");
+    }
 }

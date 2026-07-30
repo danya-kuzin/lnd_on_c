@@ -18,4 +18,17 @@ void game_init(struct GameState *game, int num_of_players)
     // игру начинает первый игрок
     game->cur_player_id_turn = game->players[0].id;
     game->players[0].turn = TURN_NOW;
+
+    // распределение по замкам
+    game->players[0].castle_x = 2;
+    game->players[0].castle_y = 1;
+
+    game->players[1].castle_x = 8;
+    game->players[1].castle_y = 3;
+
+    game->players[2].castle_x = 1;
+    game->players[2].castle_y = 4;
+
+    game->players[3].castle_x = 8;
+    game->players[3].castle_y = 1;
 }
