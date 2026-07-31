@@ -49,7 +49,9 @@ enum GameError {
     GAME_ERROR_UNKNOWN_UNIT_TYPE,
     GAME_ERROR_NOT_ENOUGH_GOLD,
     GAME_ERROR_NOT_YOUR_UNIT,
-    GAME_ERROR_SPAWN_HEX_OCCUPIED
+    GAME_ERROR_SPAWN_HEX_OCCUPIED,
+    GAME_ERROR_ATTACKER_NOT_BELONG_PLAYER,
+    GAME_ERROR_ATTACKER_NOT_NEAR
     //GAME_ERROR_EMPTY_PARAMETER,
     //GAME_ERROR_PARAMETER_IS_NOT_NUMBER,
     //GAME_ERROR_TOO_MANY_PARAMETERS
@@ -62,5 +64,7 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
 enum GameError game_move(struct GameState *game, int unit_id, int target_x, int target_y);
 
 enum GameError game_end_turn(struct GameState *game);
+
+enum GameError game_attack(struct GameState *game, int attacker_id, int defender_id);
 
 #endif

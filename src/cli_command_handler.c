@@ -9,6 +9,7 @@
 #include "cli_move.h"
 #include "cli_status.h"
 #include "cli_end_turn.h"
+#include "cli_attack.h"
 #include "cli_command_handler.h"
 
 // распределение текстовых команд по их обработчикам
@@ -42,6 +43,11 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
 
     else if (strcmp(param1, "end") == 0) {
         cli_end_turn(game);
+        return CLI_CONTINUE;
+    }
+
+    else if (strcmp(param1, "attack") == 0) {
+        cli_attack(param2, param3, game);
         return CLI_CONTINUE;
     }
 

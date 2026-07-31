@@ -38,6 +38,14 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             return GAME_ERROR_UNKNOWN_UNIT_TYPE;
     }
 
+    // проверка на то, что замковый гекс никем не занят
+    for (int i = 0; i < game->cur_cnt_units; i++) {
+        if ((game->all_units[i].hex_x == game->players[game->cur_player_id_turn - 1].castle_x) &&
+            (game->all_units[i].hex_y == game->players[game->cur_player_id_turn - 1].castle_y)) {
+                return GAME_ERROR_SPAWN_HEX_OCCUPIED;
+            }
+    }
+
     // проверка на достаточное количество золота
     int player_i = game->cur_player_id_turn - 1;
     if (game->players[player_i].gold < new_unit.cost) {
@@ -46,13 +54,6 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
         game->players[player_i].gold -= new_unit.cost;
     }
 
-    // проверка на то, что замковый гекс никем не занят
-    for (int i = 0; i < game->cur_cnt_units; i++) {
-        if ((game->all_units[i].hex_x == game->players[game->cur_player_id_turn - 1].castle_x) &&
-            (game->all_units[i].hex_y == game->players[game->cur_player_id_turn - 1].castle_y)) {
-                return GAME_ERROR_SPAWN_HEX_OCCUPIED;
-            }
-    }
     // при создании юнита его возможное перемещение максимально и равно его скорости
     new_unit.movement_left = new_unit.speed;
 
