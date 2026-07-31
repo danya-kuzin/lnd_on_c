@@ -36,6 +36,7 @@ struct GameState {
     int num_of_players;
     int cur_player_id_turn;
     bool all_players_end_turns;
+    int next_unit_id;
 };
 
 enum GameError {
@@ -51,7 +52,8 @@ enum GameError {
     GAME_ERROR_NOT_YOUR_UNIT,
     GAME_ERROR_SPAWN_HEX_OCCUPIED,
     GAME_ERROR_ATTACKER_NOT_BELONG_PLAYER,
-    GAME_ERROR_ATTACKER_NOT_NEAR
+    GAME_ERROR_ATTACKER_NOT_NEAR,
+    GAME_ERROR_UNIT_ALREADY_ATTACKED
     //GAME_ERROR_EMPTY_PARAMETER,
     //GAME_ERROR_PARAMETER_IS_NOT_NUMBER,
     //GAME_ERROR_TOO_MANY_PARAMETERS

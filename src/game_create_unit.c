@@ -11,9 +11,8 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
     
     // задаем ему характеристики
     // общие характеристики
-    new_unit.id = game->cur_cnt_units + 1;
     new_unit.player_id = game->cur_player_id_turn;
-    
+
     // частные характеристики
     switch (unit_type) {
         case SWORDSMAN:
@@ -60,6 +59,13 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
     // юнит создается в замке
     new_unit.hex_x = game->players[game->cur_player_id_turn - 1].castle_x;
     new_unit.hex_y = game->players[game->cur_player_id_turn - 1].castle_y;
+
+    // созданный юнит еще не атаковал
+    new_unit.attack_flag = false;
+
+    // выдаем ему id 
+    new_unit.id = game->next_unit_id;
+    game->next_unit_id++;
 
     // добавляем его в массив юнитов
     game->all_units[game->cur_cnt_units] = new_unit;

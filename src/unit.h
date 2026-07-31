@@ -1,6 +1,8 @@
 #ifndef UNIT_H
 #define UNIT_H
 
+#include <stdbool.h>
+
 enum UnitType {
     SWORDSMAN,
     SPEARMAN,
@@ -19,6 +21,7 @@ struct Unit {
     int id;
     int player_id;
     int movement_left;
+    bool attack_flag;
 };
 
 #endif

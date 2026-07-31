@@ -41,6 +41,10 @@ void cli_attack(char param2[], char param3[],
             printf("Error: no such unit id \n");
             break;
 
+        case GAME_ERROR_UNIT_ALREADY_ATTACKED:
+            printf("Error: this unit has already attacked \n");
+            break;
+
         case GAME_OK:
             printf("The unit has been successfully attack \n");
             break;
