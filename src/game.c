@@ -12,6 +12,19 @@ void game_init(struct GameState *game, int num_of_players)
         game->players[i].turn = NOT_TURN_YET;
     }
 
+    // заполняем карту равнинами и пропусками
+    for (int i = 0; i <  MAP_HEIGHT; i++) {
+        for (int j = 0; j < MAP_WIDTH; j++) {
+                game->map[i][j].is_discovered = false;
+            if ((i + j) % 2) {
+                game->map[i][j].terrain = NOT_EXISTS;
+            } else {
+                game->map[i][j].terrain = TERRAIN_PLAIN;
+            }
+        }
+    }
+
+
     // в начале игры еще не все игроки походили
     game->all_players_end_turns = false;
 

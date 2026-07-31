@@ -43,23 +43,21 @@ void cli_status(struct GameState *game){
     int cur_map_height = MAP_HEIGHT;
     int flag_no_unit;
 
-    for (int i = 1; i <= MAP_WIDTH * MAP_HEIGHT; i++) {
-        flag_no_unit = 1;
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        printf("|   %d ", cur_map_height);
 
-        if ((i - 1) % MAP_WIDTH == 0) {
-            printf("|   %d  ", cur_map_height);
-        }
+        for (int j = 0; j < MAP_WIDTH; j++) {
+            flag_no_unit = 1;
 
-
-        // печать гекса/пропуска/юнита
-        if (abs(cur_map_height - cur_map_width) % 2 == 0) {
-            printf("   ");
-        } 
-        else {
+            // печать гекса/пропуска/юнита
             for (int i = 0; i < game->cur_cnt_units; i++) {
                 if (game->all_units[i].hex_x == cur_map_width &&
                     game->all_units[i].hex_y == cur_map_height) {
                     
+                    if (game->all_units[i].id < 10) {
+                        printf(" ");
+                    }
+
                     printf("%s", cli_player_color(game->all_units[i].player_id));
                     printf("%d", game->all_units[i].id);
                     printf("%s", COLOR_RESET);
@@ -70,32 +68,64 @@ void cli_status(struct GameState *game){
                         printf(" ");
                     }
                     else {
-                        printf("  ");
+                        printf(" ");
                     }
                 }
             }
+
             if (flag_no_unit == 1) {
-                printf("X  ");
+                if ((game->map[i][j].is_discovered == false) &&
+                    (game->map[i][j].terrain != NOT_EXISTS)) {
+                    printf(" ? ");
+                }
+
+                else {
+                    switch (game->map[i][j].terrain) {
+                        case NOT_EXISTS:
+                            printf("   ");
+                            break;
+                        case TERRAIN_PLAIN:
+                            printf(" P ");
+                            break;
+                        case TERRAIN_FOREST:
+                            printf(" F ");
+                            break;
+                        case TERRAIN_HILL:
+                            printf(" H ");
+                            break;
+                        case TERRAIN_MOUNTAIN:
+                            printf(" M ");
+                            break;
+                        case TERRAIN_VILLAGE:
+                            printf(" V ");
+                            break;
+                    }
+                }
             }
+        
+
+            cur_map_width++;
         }
 
-        cur_map_width++;
-
-        if (i % MAP_WIDTH == 0) {
-            printf(" |\n| ");
-            for (int i = 1; i <= (MAP_WIDTH + 2) * 3; i++) {
-                printf(" ");
-            }
-            printf("|\n");
-            cur_map_height--;
-            cur_map_width = 1;
+        // переход на новую строку
+        printf("  |\n| ");
+        for (int i = 1; i <= (MAP_WIDTH + 2) * 3; i++) {
+            printf(" ");
         }
+        printf("|\n");
+        cur_map_height--;
+        cur_map_width = 1;
     }
 
     // блок чисто форматирования
     printf("|      ");
     for (int i = 1; i <= MAP_WIDTH; i++) {
-        printf("%d  ", i);
+        if (i < 10) {
+            printf("%d  ", i);
+        }
+        else if (i < 100) {
+            printf("%d ", i);
+        }
     }
     printf(" |\n|");
     for (int i = 1; i <= (MAP_WIDTH + 2) * 3 + 1; i++) {

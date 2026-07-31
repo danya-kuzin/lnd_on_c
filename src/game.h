@@ -3,10 +3,11 @@
 
 #include <stdbool.h>
 #include "unit.h"
+#include "hex.h"
 
 #define MAX_CNT_OF_UNITS 64
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 4
+#define MAP_WIDTH 16
+#define MAP_HEIGHT 8
 #define MAX_CNT_OF_PLAYERS 4
 
 // перечислимый тип для хода игрока
@@ -37,6 +38,8 @@ struct GameState {
     int cur_player_id_turn;
     bool all_players_end_turns;
     int next_unit_id;
+
+    struct Hex map[MAP_HEIGHT][MAP_WIDTH];
 };
 
 enum GameError {

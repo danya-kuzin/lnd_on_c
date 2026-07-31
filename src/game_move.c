@@ -56,6 +56,10 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
             game->all_units[i].hex_x = target_x;
             game->all_units[i].hex_y = target_y;
             game->all_units[i].movement_left -= (delta_x + delta_y)/2;
+
+            int map_i = MAP_HEIGHT - target_y;
+            int map_j = target_x - 1;
+            game->map[map_i][map_j].is_discovered = true;
             break;
         }
     }

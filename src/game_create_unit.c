@@ -95,6 +95,11 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
     // созданный юнит еще не атаковал
     new_unit.attack_flag = false;
 
+    // созданный юнит открывает под собой клетку
+    int map_i = MAP_HEIGHT - new_unit.hex_y;
+    int map_j = new_unit.hex_x - 1;
+    game->map[map_i][map_j].is_discovered = true;
+
     // выдаем ему id 
     new_unit.id = game->next_unit_id;
     game->next_unit_id++;
