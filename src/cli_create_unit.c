@@ -18,6 +18,18 @@ void cli_create_unit(struct GameState *game, char unit_name[]) {
         error = game_create_unit(game, SPEARMAN);
     }
 
+    else if (strcmp(unit_name, "cav") == 0){
+        error = game_create_unit(game, CAVALRY);
+    }
+
+    else if (strcmp(unit_name, "arch") == 0){
+        error = game_create_unit(game, ARCHER);
+    }
+
+    else if (strcmp(unit_name, "scout") == 0){
+        error = game_create_unit(game, SCOUT);
+    }
+
     else {
         printf("Error: unknown unit type\n");
         return;

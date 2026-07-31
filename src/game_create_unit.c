@@ -22,6 +22,7 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.attack = 2;
             new_unit.defence = 1;
             new_unit.speed = 1;
+            new_unit.attack_range = 1;
             break;
 
         case SPEARMAN:
@@ -31,6 +32,37 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.attack = 3;
             new_unit.defence = 2;
             new_unit.speed = 1;
+            new_unit.attack_range = 1;
+            break;
+
+        case SCOUT:
+            new_unit.type = SCOUT;
+            new_unit.cost = 4;
+            new_unit.health = 1;
+            new_unit.attack = 0;
+            new_unit.defence = 0;
+            new_unit.speed = 3;
+            new_unit.attack_range = 1;
+            break;
+
+        case CAVALRY:
+            new_unit.type = CAVALRY;
+            new_unit.cost = 12;
+            new_unit.health = 3;
+            new_unit.attack = 4;
+            new_unit.defence = 2;
+            new_unit.speed = 2;
+            new_unit.attack_range = 1;
+            break;
+
+        case ARCHER:
+            new_unit.type = ARCHER;
+            new_unit.cost = 10;
+            new_unit.health = 2;
+            new_unit.attack = 2;
+            new_unit.defence = 0;
+            new_unit.speed = 1;
+            new_unit.attack_range = 2;
             break;
 
         default:

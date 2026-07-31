@@ -44,7 +44,8 @@ enum GameError game_attack(struct GameState *game, int attacker_id, int defender
     // проверка на то, что атакующий рядом с защищающимся
     int delta_x = abs(cur_defender_unit.hex_x - cur_attacker_unit.hex_x);
     int delta_y = abs(cur_defender_unit.hex_y - cur_attacker_unit.hex_y);
-    if ((delta_x + delta_y) != 2) {
+    int distance =  (delta_x + delta_y) / 2;
+    if (distance > cur_attacker_unit.attack_range) {
         return GAME_ERROR_ATTACKER_NOT_NEAR;
     }
 
@@ -71,7 +72,9 @@ enum GameError game_attack(struct GameState *game, int attacker_id, int defender
             damage = cur_defender_unit.attack - cur_attacker_unit.defence;
             attacker_index = i;
             game->all_units[i].attack_flag = true;
-            if (damage > 0) {
+
+            // distance == 1 то есть ответка прилетает только если defender рядом
+            if ((damage > 0) && (distance == 1)) {
                 game->all_units[i].health -= damage;
             }
         }

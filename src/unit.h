@@ -6,7 +6,9 @@
 enum UnitType {
     SWORDSMAN,
     SPEARMAN,
-    ARCHER
+    ARCHER,
+    CAVALRY,
+    SCOUT
 };
 
 struct Unit {
@@ -22,6 +24,7 @@ struct Unit {
     int player_id;
     int movement_left;
     bool attack_flag;
+    int attack_range;
 };
 
 #endif

@@ -42,12 +42,14 @@ void cli_parsing(int str_len, char str[], char param1[],
                 break;
             }
 
+            if (str[i] == '\n') {
+                break;
+            }
+            
             i++; // чтобы скипнуть пробел
             num_param++;
             j = 0;
 
-            if (str[i] == '\n')
-                break;
         }
 
         temp_param[j] = str[i]; 
