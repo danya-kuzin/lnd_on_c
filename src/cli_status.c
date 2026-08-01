@@ -74,12 +74,12 @@ void cli_status(struct GameState *game){
             }
 
             if (flag_no_unit == 1) {
-                if ((game->map[i][j].is_discovered == false) &&
+                /*if ((game->map[i][j].is_discovered == false) &&
                     (game->map[i][j].terrain != NOT_EXISTS)) {
                     printf(" ? ");
-                }
+                }*/
 
-                else {
+                //else {
                     switch (game->map[i][j].terrain) {
                         case NOT_EXISTS:
                             printf("   ");
@@ -96,11 +96,25 @@ void cli_status(struct GameState *game){
                         case TERRAIN_MOUNTAIN:
                             printf(" M ");
                             break;
-                        case TERRAIN_VILLAGE:
-                            printf(" V ");
+
+                        // деревни цвета владельца деревни
+                        case TERRAIN_VILLAGE_1:
+                            printf("%s", cli_player_color(game->map[i][j].owner_player_id));
+                            printf(" V1");
+                            printf("%s", COLOR_RESET);
+                            break;
+                        case TERRAIN_VILLAGE_2:
+                            printf("%s", cli_player_color(game->map[i][j].owner_player_id));
+                            printf(" V2");
+                            printf("%s", COLOR_RESET);
+                            break;
+                        case TERRAIN_VILLAGE_3:
+                            printf("%s", cli_player_color(game->map[i][j].owner_player_id));
+                            printf(" V3");
+                            printf("%s", COLOR_RESET);
                             break;
                     }
-                }
+                //}
             }
         
 

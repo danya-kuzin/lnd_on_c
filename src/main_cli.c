@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
 
 // мои заголовки
 #include "cli_parsing.h"
@@ -16,10 +17,13 @@
 #include "cli_command_handler.h"
 #include "game.h"
 
+
 #define LENGTH_INPUT_STR 20
 
 int main()
 {
+    // запуск генерации псевдослучайных чисел
+    srand(time(NULL)); 
 
     // переменные для старта игры
     char start_input[10];  

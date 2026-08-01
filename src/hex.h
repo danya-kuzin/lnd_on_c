@@ -9,7 +9,9 @@ enum TerrainType {
     TERRAIN_FOREST,
     TERRAIN_HILL,
     TERRAIN_MOUNTAIN,
-    TERRAIN_VILLAGE
+    TERRAIN_VILLAGE_1,
+    TERRAIN_VILLAGE_2,
+    TERRAIN_VILLAGE_3
 };
 
 struct Hex {

@@ -60,6 +60,14 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
             int map_i = MAP_HEIGHT - target_y;
             int map_j = target_x - 1;
             game->map[map_i][map_j].is_discovered = true;
+
+            // присваиваем деревню владельцу
+            if ((game->map[map_i][map_j].terrain == TERRAIN_VILLAGE_1) ||
+                (game->map[map_i][map_j].terrain == TERRAIN_VILLAGE_2) ||
+                (game->map[map_i][map_j].terrain == TERRAIN_VILLAGE_3)) {
+                game->map[map_i][map_j].owner_player_id = game->cur_player_id_turn;
+            }
+
             break;
         }
     }
