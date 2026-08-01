@@ -26,6 +26,35 @@ enum GameError game_end_turn(struct GameState *game) {
     } else {
         game->all_players_end_turns = true;
 
+        // все игроки получают золото от деревень
+        for (int i = 0; i < MAP_HEIGHT; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                int plus_gold;
+
+                switch (game->map[i][j].terrain) {
+                    case TERRAIN_VILLAGE_1:
+                        plus_gold = 1; 
+                        break;
+
+                    case TERRAIN_VILLAGE_2:
+                        plus_gold = 2; 
+                        break;
+
+                    case TERRAIN_VILLAGE_3:
+                        plus_gold = 3; 
+                        break;
+                    
+                    default:
+                        plus_gold = 0;
+                }
+
+                int owner_id = game->map[i][j].owner_player_id - 1;
+                if (owner_id >= 1 && owner_id <= game->num_of_players) {
+                    game->players[owner_id].gold += plus_gold;
+                }
+            }
+        }
+
         // приведение подсчета ходов к изначальным значениям
         for (int i = 0; i < game->num_of_players; i++) {
             game->players[i].turn = NOT_TURN_YET;
