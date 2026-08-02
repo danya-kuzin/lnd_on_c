@@ -10,6 +10,37 @@
 #define MAP_HEIGHT 8
 #define MAX_CNT_OF_PLAYERS 4
 
+// для вывода и хранения результатов атаки
+struct AttackResult {
+    int attacker_id;
+    int defender_id;
+    int damage_to_defender;
+    int damage_to_attacker;
+
+    int defender_based_defence;
+    int defender_hp_before;
+    int defender_hp_after;
+    int defender_based_attack;
+    int defender_attack_random_bonus;
+    int defender_defence_random_bonus;
+    int defender_bonus_RPS;
+    bool defender_dead;
+
+    int attacker_based_defence;
+    int attacker_hp_before;
+    int attacker_hp_after;
+    int attacker_based_attack;
+    int attacker_attack_random_bonus;
+    int attacker_defence_random_bonus;
+    int attacker_bonus_RPS;
+    bool attacker_dead;
+
+    int all_attacker_attack;
+    int all_attacker_defence;
+    int all_defender_attack;
+    int all_defender_defence;
+};
+
 // перечислимый тип для хода игрока
 enum PlayerTurn {
     NOT_TURN_YET,
@@ -70,6 +101,6 @@ enum GameError game_move(struct GameState *game, int unit_id, int target_x, int 
 
 enum GameError game_end_turn(struct GameState *game);
 
-enum GameError game_attack(struct GameState *game, int attacker_id, int defender_id);
+enum GameError game_attack(struct GameState *game, int attacker_id, int defender_id, struct AttackResult *result);
 
 #endif

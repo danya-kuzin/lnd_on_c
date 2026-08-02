@@ -8,7 +8,8 @@ enum UnitType {
     SPEARMAN,
     ARCHER,
     CAVALRY,
-    SCOUT
+    SCOUT,
+    NO_TYPE
 };
 
 struct Unit {
@@ -25,6 +26,10 @@ struct Unit {
     int movement_left;
     bool attack_flag;
     int attack_range;
+    int max_attack_random_bonus;
+    int max_defence_random_bonus;
+    int attack_RPS_bonus; // сколько
+    enum UnitType attack_RPS_bonus_UT; // против кого
 };
 
 #endif

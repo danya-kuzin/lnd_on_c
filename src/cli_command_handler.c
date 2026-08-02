@@ -17,7 +17,7 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
                                 char param2[], char param3[], char param4[]) {
     if (strcmp(param1, "create") == 0) {
         cli_create_unit(game, param2);
-        // cli_print_units(game);
+        cli_status(game);
         return CLI_CONTINUE;
     }
 
@@ -28,6 +28,7 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
 
     else if (strcmp(param1, "move") == 0) {
         cli_move(param2, param3, param4, game);
+        cli_status(game);
         return CLI_CONTINUE;
     }
 
@@ -48,6 +49,7 @@ enum CliResult cli_handle_command(struct GameState *game, char param1[],
 
     else if (strcmp(param1, "attack") == 0) {
         cli_attack(param2, param3, game);
+        cli_status(game);
         return CLI_CONTINUE;
     }
 

@@ -5,6 +5,29 @@
 #include "cli_print_units.h"
 #include "cli_status.h"
 
+// функция для печати буквы перед индексом
+char unit_type_letter(enum UnitType type) {
+    switch (type) {
+        case SWORDSMAN:
+            return 'm';
+            break;
+        case SPEARMAN:
+            return 'k';
+            break;
+        case ARCHER:
+            return 'a';
+            break;
+        case CAVALRY:
+            return 'c';
+            break;
+        case SCOUT:
+            return 's';
+            break;
+        default:
+            return '#';
+            break;
+    }
+}
 
 // функция для распределения игроков по цветам
 const char *cli_player_color(int player_id)
@@ -12,14 +35,19 @@ const char *cli_player_color(int player_id)
     switch (player_id) {
         case 1:
             return COLOR_RED;
+            break;
         case 2:
             return COLOR_GREEN;
+            break;
         case 3:
             return COLOR_YELLOW;
+            break;
         case 4:
             return COLOR_BLUE;
+            break;
         default:
             return COLOR_RESET;
+            break;
     }
 }
 
@@ -53,23 +81,17 @@ void cli_status(struct GameState *game){
             for (int i = 0; i < game->cur_cnt_units; i++) {
                 if (game->all_units[i].hex_x == cur_map_width &&
                     game->all_units[i].hex_y == cur_map_height) {
-                    
+
+                    printf("%s", cli_player_color(game->all_units[i].player_id));
+                    printf("%c%d", unit_type_letter(game->all_units[i].type), game->all_units[i].id);
+                    printf("%s", COLOR_RESET);
+
                     if (game->all_units[i].id < 10) {
                         printf(" ");
                     }
 
-                    printf("%s", cli_player_color(game->all_units[i].player_id));
-                    printf("%d", game->all_units[i].id);
-                    printf("%s", COLOR_RESET);
-
                     flag_no_unit = 0;
 
-                    if (game->all_units[i].id > 9) {
-                        printf(" ");
-                    }
-                    else {
-                        printf(" ");
-                    }
                 }
             }
 

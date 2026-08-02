@@ -48,9 +48,9 @@ enum GameError game_end_turn(struct GameState *game) {
                         plus_gold = 0;
                 }
 
-                int owner_id = game->map[i][j].owner_player_id - 1;
+                int owner_id = game->map[i][j].owner_player_id;
                 if (owner_id >= 1 && owner_id <= game->num_of_players) {
-                    game->players[owner_id].gold += plus_gold;
+                    game->players[owner_id - 1].gold += plus_gold;
                 }
             }
         }

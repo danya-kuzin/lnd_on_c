@@ -19,20 +19,28 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.type = SWORDSMAN;
             new_unit.cost = 6;
             new_unit.health = 3;
-            new_unit.attack = 2;
-            new_unit.defence = 1;
+            new_unit.attack = 1;
+            new_unit.defence = 0;
             new_unit.speed = 1;
             new_unit.attack_range = 1;
+            new_unit.attack_RPS_bonus = 2;
+            new_unit.attack_RPS_bonus_UT = SPEARMAN;
+            new_unit.max_attack_random_bonus = 1;
+            new_unit.max_defence_random_bonus = 1;
             break;
 
         case SPEARMAN:
             new_unit.type = SPEARMAN;
             new_unit.cost = 8;
             new_unit.health = 4;
-            new_unit.attack = 3;
-            new_unit.defence = 2;
+            new_unit.attack = 2;
+            new_unit.defence = 1;
             new_unit.speed = 1;
             new_unit.attack_range = 1;
+            new_unit.attack_RPS_bonus = 2;
+            new_unit.attack_RPS_bonus_UT = CAVALRY;
+            new_unit.max_attack_random_bonus = 1;
+            new_unit.max_defence_random_bonus = 1;
             break;
 
         case SCOUT:
@@ -43,16 +51,24 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.defence = 0;
             new_unit.speed = 3;
             new_unit.attack_range = 1;
+            new_unit.attack_RPS_bonus = 0;
+            new_unit.attack_RPS_bonus_UT = NO_TYPE;
+            new_unit.max_attack_random_bonus = 0;
+            new_unit.max_defence_random_bonus = 0;
             break;
 
         case CAVALRY:
             new_unit.type = CAVALRY;
             new_unit.cost = 12;
             new_unit.health = 3;
-            new_unit.attack = 4;
-            new_unit.defence = 2;
+            new_unit.attack = 3;
+            new_unit.defence = 1;
             new_unit.speed = 2;
             new_unit.attack_range = 1;
+            new_unit.attack_RPS_bonus = 2;
+            new_unit.attack_RPS_bonus_UT = SWORDSMAN;
+            new_unit.max_attack_random_bonus = 1;
+            new_unit.max_defence_random_bonus = 1;
             break;
 
         case ARCHER:
@@ -63,6 +79,10 @@ enum GameError game_create_unit(struct GameState *game, enum UnitType unit_type)
             new_unit.defence = 0;
             new_unit.speed = 1;
             new_unit.attack_range = 2;
+            new_unit.attack_RPS_bonus = 0;
+            new_unit.attack_RPS_bonus_UT = NO_TYPE;
+            new_unit.max_attack_random_bonus = 1;
+            new_unit.max_defence_random_bonus = 1;
             break;
 
         default:
