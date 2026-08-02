@@ -96,12 +96,12 @@ void cli_status(struct GameState *game){
             }
 
             if (flag_no_unit == 1) {
-                /*if ((game->map[i][j].is_discovered == false) &&
+                if ((game->map[i][j].is_discovered == false) &&
                     (game->map[i][j].terrain != NOT_EXISTS)) {
                     printf(" ? ");
-                }*/
+                }
 
-                //else {
+                else {
                     switch (game->map[i][j].terrain) {
                         case NOT_EXISTS:
                             printf("   ");
