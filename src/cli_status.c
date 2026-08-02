@@ -136,7 +136,7 @@ void cli_status(struct GameState *game){
                             printf("%s", COLOR_RESET);
                             break;
                     }
-                //}
+                }
             }
         
 
