@@ -5,17 +5,15 @@
 #include <string.h>
 #include <stdbool.h>
 #include <sys/select.h>
+#include <stdlib.h>
 #include "net_common.h"
+#include "game.h"
+#include "server_command_handler.h"
 
 #define SERVER_PORT 50500
 #define BACKLOG 8
 #define BUFFER_SIZE 256
 #define MAX_CLIENTS 4
-
-struct Client { 
-    int client_fd; 
-    int client_id; 
-};
 
 int main(void)
 {
@@ -93,6 +91,11 @@ int main(void)
     
     printf("Client_%d connected, client_fd=%d\n\n\n", clients[1].client_id, clients[1].client_fd);
 
+    // инициализируем игру
+    struct GameState game;
+    game_init(&game, 2); // в игре пока фиксированное кол-ва игроов - 2
+    int client_count = 2;
+
     while (true) {
         // создаем полное множество fd
         fd_set read_fds;
@@ -138,31 +141,10 @@ int main(void)
                 printf("Message from client_%d with fd=%d : %s", clients[0].client_id, clients[0].client_fd, buffer);
             }
 
-            /* ответ с сервера на клиент о том, что сообщение дошло на сервер
-            const char *response = "message received\n";
-            if (send_all(clients[0].client_fd, response, strlen(response)) == -1) {
-                perror("send");
-                close(clients[0].client_fd);
-                close(clients[1].client_fd);
-                close(listen_fd);
-                return 1;
-            }*/
-
             printf("\nSent response to client_%d\n\n", clients[0].client_id);
             
-            // отправляем сообщение с сервера от 1-ого клиента 2-му
-
-            // формируем ответ
-            char client_response_1[BUFFER_SIZE + 64];
-            snprintf(client_response_1, sizeof(client_response_1), "User %d: %s\n", clients[0].client_id, buffer);
-
-            if (send_all(clients[1].client_fd, client_response_1, strlen(client_response_1)) == -1) {
-                perror("send");
-                close(clients[0].client_fd);
-                close(clients[1].client_fd);
-                close(listen_fd);
-                return 1;
-            }
+            // отправляем команду в распределитель команд
+            server_handle_command(&game, clients, client_count, 0, buffer);
 
             if (strcmp(buffer, "quit") == 0) {
                 printf("The client_%d has completed the process\n", clients[0].client_id);
@@ -185,36 +167,16 @@ int main(void)
 
             if (bytes_received == 0) {
                 printf("No recived bytes \n");
-                break;
+                continue;
             }
             else {
                 printf("Message from client_%d with fd=%d : %s", clients[1].client_id, clients[1].client_fd, buffer);
             }
 
-            /* ответ с сервера на клиент о том, что сообщение дошло на сервер
-            const char *response = "message received\n";
-            if (send_all(clients[1].client_fd, response, strlen(response)) == -1) {
-                perror("send");
-                close(clients[0].client_fd);
-                close(clients[1].client_fd);
-                close(listen_fd);
-                return 1;
-            }*/
-
             printf("\nSent response to client_%d\n\n", clients[1].client_id);
 
-            // отправляем сообщение с сервера от 2-ого клиента 1-му
-            // формируем ответ
-            char client_response_2[BUFFER_SIZE + 64];
-            snprintf(client_response_2, sizeof(client_response_2), "User %d: %s\n", clients[1].client_id, buffer);
-
-            if (send_all(clients[0].client_fd, client_response_2, strlen(client_response_2)) == -1) {
-                perror("send");
-                close(clients[0].client_fd);
-                close(clients[1].client_fd);
-                close(listen_fd);
-                return 1;
-            }
+            // отправляем команду в распределитель команд
+            server_handle_command(&game, clients, client_count, 1, buffer);
 
             if (strcmp(buffer, "quit") == 0) {
                 printf("The client_%d has completed the process\n", clients[1].client_id);

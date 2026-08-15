@@ -30,7 +30,13 @@ NET_SRC = \
 	src/net_common.c
 
 SERVER_SRC = \
-	src/lnd_server.c
+	src/lnd_server.c \
+	src/server_command_handler.c \
+	src/server_help.c \
+	src/server_create_unit.c \
+	src/server_move.c \
+	src/server_attack.c \
+	src/server_end_turn.c
 
 CLIENT_SRC = \
 	src/lnd_client.c
@@ -48,7 +54,13 @@ HEADERS = \
 	src/cli_command_handler.h \
 	src/cli_end_turn.h \
 	src/cli_attack.h \
-	src/net_common.h
+	src/net_common.h \
+	src/server_command_handler.h \
+	src/server_help.h \
+	src/server_create_unit.h \
+	src/server_move.h \
+	src/server_attack.h \
+	src/server_end_turn.h
 
 .PHONY: all clean run run-cli run-server run-client
 
