@@ -48,6 +48,12 @@ enum PlayerTurn {
     ALREADY_TURN
 };
 
+// структура для хранения состояния игры (завершена/продолжается)
+enum ServerResult {
+    SERVER_CONTINUE,
+    SERVER_FINISH
+};
+
 // структура игрока
 struct Player {
     int gold;

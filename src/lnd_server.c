@@ -95,95 +95,115 @@ int main(void)
     struct GameState game;
     game_init(&game, 2); // в игре пока фиксированное кол-ва игроов - 2
     int client_count = 2;
+    enum ServerResult continue_or_finish = SERVER_CONTINUE;
 
-    while (true) {
-        // создаем полное множество fd
-        fd_set read_fds;
-        FD_ZERO(&read_fds);
-        FD_SET(clients[0].client_fd, &read_fds);
-        FD_SET(clients[1].client_fd, &read_fds);
+    // основной цикл
+    while (continue_or_finish == SERVER_CONTINUE) {
 
-        int max_fd = clients[0].client_fd;
-        if (clients[0].client_fd < clients[1].client_fd) {
-            max_fd = clients[1].client_fd;
-        }
+        // номер раунда
+        game.cur_round++;
+        char message_round[64];
+        snprintf(message_round, sizeof(message_round), "-------------ROUND %d-------------\n", game.cur_round);
+        send_all(clients[0].client_fd, message_round, strlen(message_round));
+        send_all(clients[1].client_fd, message_round, strlen(message_round));
 
-        // смотрим из каких fd можно читать
-        int ready_count = select(max_fd + 1, &read_fds, NULL, NULL, NULL);
+        game.all_players_end_turns = false;
+        while (game.all_players_end_turns == false) {
+            // создаем полное множество fd
+            fd_set read_fds;
+            FD_ZERO(&read_fds);
+            FD_SET(clients[0].client_fd, &read_fds);
+            FD_SET(clients[1].client_fd, &read_fds);
 
-        if (ready_count == -1) {
-            perror("select");
-            close(listen_fd);
-            close(clients[0].client_fd);
-            close(clients[1].client_fd);
-            return 1;
-        }
+            int max_fd = clients[0].client_fd;
+            if (clients[0].client_fd < clients[1].client_fd) {
+                max_fd = clients[1].client_fd;
+            }
 
-        
-        // если можно считать из сокетного буфера первого клиента
-        if (FD_ISSET(clients[0].client_fd, &read_fds)) {
-            char buffer[BUFFER_SIZE];
-            ssize_t bytes_received = recv_line(clients[0].client_fd, buffer, sizeof(buffer));
+            // смотрим из каких fd можно читать
+            int ready_count = select(max_fd + 1, &read_fds, NULL, NULL, NULL);
 
-            if (bytes_received == -1) {
-                perror("recv");
+            if (ready_count == -1) {
+                perror("select");
                 close(listen_fd);
                 close(clients[0].client_fd);
                 close(clients[1].client_fd);
                 return 1;
             }
 
-            if (bytes_received == 0) {
-                printf("No recived bytes \n");
-                break;
-            }
-            else {
-                printf("Message from client_%d with fd=%d : %s", clients[0].client_id, clients[0].client_fd, buffer);
+            const char *message = NULL;
+            // если можно считать из сокетного буфера первого клиента
+            if (FD_ISSET(clients[0].client_fd, &read_fds)) {
+                char buffer[BUFFER_SIZE];
+                ssize_t bytes_received = recv_line(clients[0].client_fd, buffer, sizeof(buffer));
+
+                if (bytes_received == -1) {
+                    perror("recv");
+                    close(listen_fd);
+                    close(clients[0].client_fd);
+                    close(clients[1].client_fd);
+                    return 1;
+                }
+
+                if (bytes_received == 0) {
+                    printf("No recived bytes \n");
+                    break;
+                }
+                else {
+                    printf("Message from client_%d with fd=%d : %s", clients[0].client_id, clients[0].client_fd, buffer);
+                }
+
+                printf("\nSent response to client_%d\n\n", clients[0].client_id);
+                
+                if (strcmp(buffer, "finish") == 0) {
+                    printf("The client_%d has completed the process\n", clients[0].client_id);
+                    message = "Congratulations on the end of the LnD game\n";
+                    send_all(clients[0].client_fd, message, strlen(message));
+                    send_all(clients[1].client_fd, message, strlen(message));
+                    continue_or_finish = SERVER_FINISH;
+                    break;
+                }
+
+                // отправляем команду в распределитель команд
+                server_handle_command(&game, clients, client_count, 0, buffer);
             }
 
-            printf("\nSent response to client_%d\n\n", clients[0].client_id);
-            
-            // отправляем команду в распределитель команд
-            server_handle_command(&game, clients, client_count, 0, buffer);
+            // если можно считать из сокетного буфера второго клиента
+            if (FD_ISSET(clients[1].client_fd, &read_fds)) {
+                char buffer[BUFFER_SIZE];
+                ssize_t bytes_received = recv_line(clients[1].client_fd, buffer, sizeof(buffer));
 
-            if (strcmp(buffer, "quit") == 0) {
-                printf("The client_%d has completed the process\n", clients[0].client_id);
-                break;
+                if (bytes_received == -1) {
+                    perror("recv");
+                    close(listen_fd);
+                    close(clients[0].client_fd);
+                    close(clients[1].client_fd);
+                    return 1;
+                }
+
+                if (bytes_received == 0) {
+                    printf("No recived bytes \n");
+                    continue;
+                }
+                else {
+                    printf("Message from client_%d with fd=%d : %s", clients[1].client_id, clients[1].client_fd, buffer);
+                }
+
+                printf("\nSent response to client_%d\n\n", clients[1].client_id);
+                
+                if (strcmp(buffer, "finish") == 0) {
+                    printf("The client_%d has completed the process\n", clients[1].client_id);
+                    message = "Congratulations on the end of the LnD game\n";
+                    send_all(clients[0].client_fd, message, strlen(message));
+                    send_all(clients[1].client_fd, message, strlen(message));
+                    continue_or_finish = SERVER_FINISH;
+                    break;
+                }
+
+                // отправляем команду в распределитель команд
+                server_handle_command(&game, clients, client_count, 1, buffer);
             }
         }
-
-        // если можно считать из сокетного буфера второго клиента
-        if (FD_ISSET(clients[1].client_fd, &read_fds)) {
-            char buffer[BUFFER_SIZE];
-            ssize_t bytes_received = recv_line(clients[1].client_fd, buffer, sizeof(buffer));
-
-            if (bytes_received == -1) {
-                perror("recv");
-                close(listen_fd);
-                close(clients[0].client_fd);
-                close(clients[1].client_fd);
-                return 1;
-            }
-
-            if (bytes_received == 0) {
-                printf("No recived bytes \n");
-                continue;
-            }
-            else {
-                printf("Message from client_%d with fd=%d : %s", clients[1].client_id, clients[1].client_fd, buffer);
-            }
-
-            printf("\nSent response to client_%d\n\n", clients[1].client_id);
-
-            // отправляем команду в распределитель команд
-            server_handle_command(&game, clients, client_count, 1, buffer);
-
-            if (strcmp(buffer, "quit") == 0) {
-                printf("The client_%d has completed the process\n", clients[1].client_id);
-                break;
-            }
-        }
-
     }
 
     close(listen_fd);
