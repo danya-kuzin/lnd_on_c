@@ -10,6 +10,7 @@
 #include "server_move.h"
 #include "server_attack.h"
 #include "server_end_turn.h"
+#include "server_status.h"
 #include "server_command_handler.h"
 
 #define BUFFER_SIZE 256
@@ -91,6 +92,10 @@ void server_handle_command(struct GameState *game, struct Client clients[], int 
             return;
         }
         server_end_turn(game, clients[sender_i].client_fd);
+    }
+
+    else if (strcmp(param1, "status") == 0) {
+        server_status(game, clients[sender_i].client_fd);
     }
 
     else {

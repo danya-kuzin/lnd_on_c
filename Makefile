@@ -36,7 +36,8 @@ SERVER_SRC = \
 	src/server_create_unit.c \
 	src/server_move.c \
 	src/server_attack.c \
-	src/server_end_turn.c
+	src/server_end_turn.c \
+	src/server_status.c
 
 CLIENT_SRC = \
 	src/lnd_client.c
@@ -60,7 +61,8 @@ HEADERS = \
 	src/server_create_unit.h \
 	src/server_move.h \
 	src/server_attack.h \
-	src/server_end_turn.h
+	src/server_end_turn.h \
+	src/server_status.h
 
 .PHONY: all clean run run-cli run-server run-client
 
